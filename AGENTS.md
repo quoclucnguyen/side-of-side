@@ -17,3 +17,24 @@ Git history follows Conventional Commits (`feat:`, `refactor:`, etc.), so prefix
 
 ## Security & Configuration Tips
 Environment variables are consumed via `@nestjs/config` and TypeORM—store them in a local `.env` ignored by Git and document additions in the PR. Never commit credentials, and scrub sample data before sharing logs. When touching dependencies, highlight security-sensitive upgrades (e.g., `pg`, `typeorm`) so reviewers can perform targeted checks.
+
+## Environment Setup
+Ensure Node.js (v18+) and npm are installed locally. Clone the repository, run `npm install` to fetch dependencies, and create a `.env` file based on `.env.example`. Database migrations are handled via TypeORM; use `npm run migration:run` to apply pending migrations and `npm run migration:generate` to create new ones after entity changes. Docker Compose is available for local database setup if preferred.
+
+## Performance Guidelines
+Optimize database queries by selecting only needed fields and utilizing proper indexes. Leverage NestJS caching with `@nestjs/cache-manager` for frequently accessed data. Implement pagination for list endpoints to prevent large response payloads. Monitor bundle size with `npm run build:analyze` and avoid importing entire libraries when specific modules suffice.
+
+## Error Handling & Logging
+Use NestJS built-in exception filters for consistent error responses. Implement structured logging with context using the project's configured logger. Log warnings and errors appropriately, avoiding sensitive information in logs. For external service failures, implement retry mechanisms with exponential backoff where applicable.
+
+## API Documentation
+API documentation is auto-generated using Swagger. Access it locally at `http://localhost:3000/api` when running the development server. Maintain OpenAPI decorators on all endpoints, including proper response status codes, examples, and descriptions. Update documentation for any breaking changes or new features.
+
+## Deployment & CI/CD
+The application is containerized with Docker; use `docker build` to create production images. Environment-specific configurations are managed through environment variables passed at runtime. CI pipeline runs on every push, performing lint, tests, security scans, and building artifacts. Deployment follows a GitOps pattern with main branch auto-deploying to staging and tagged releases to production.
+
+## Contributing & Issue Reporting
+File issues with clear reproduction steps, environment details, and expected vs actual behavior. For bug fixes, create a branch from `main` prefixed with `fix/`. For features, use `feature/`. All contributions require passing tests and adherence to the established code style. Prior discussions for major changes are encouraged through issues or design documents in `memory-bank/`.
+
+## Troubleshooting
+For common development issues: clear node_modules and reinstall if encountering strange errors. Check `.env` configuration for database connection issues. Verify TypeScript compilation with `npm run build` when runtime errors occur. Use `npm run test:debug` for stepping through failing tests in debug mode.
