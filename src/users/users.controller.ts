@@ -12,7 +12,7 @@ import {
 import { ApiTags, ApiOperation, ApiResponse, ApiParam } from '@nestjs/swagger';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { User } from './entities/user.entity';
+import { UserEntity } from './entities/user.entity';
 import { UsersService } from './users.service';
 
 @ApiTags('users')
@@ -25,13 +25,13 @@ export class UsersController {
   @ApiResponse({
     status: HttpStatus.CREATED,
     description: 'The user has been successfully created.',
-    type: User,
+    type: UserEntity,
   })
   @ApiResponse({
     status: HttpStatus.BAD_REQUEST,
     description: 'Invalid input data.',
   })
-  create(@Body() createUserDto: CreateUserDto): Promise<User> {
+  create(@Body() createUserDto: CreateUserDto): Promise<UserEntity> {
     return this.usersService.create(createUserDto);
   }
 
@@ -40,9 +40,9 @@ export class UsersController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'List of all users',
-    type: [User],
+    type: [UserEntity],
   })
-  findAll(): Promise<User[]> {
+  findAll(): Promise<UserEntity[]> {
     return this.usersService.findAll();
   }
 
@@ -56,13 +56,13 @@ export class UsersController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'The found user',
-    type: User,
+    type: UserEntity,
   })
   @ApiResponse({
     status: HttpStatus.NOT_FOUND,
     description: 'User not found',
   })
-  findOne(@Param('id', ParseIntPipe) id: number): Promise<User> {
+  findOne(@Param('id', ParseIntPipe) id: number): Promise<UserEntity> {
     return this.usersService.findOne(id);
   }
 
@@ -76,7 +76,7 @@ export class UsersController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'The user has been successfully updated.',
-    type: User,
+    type: UserEntity,
   })
   @ApiResponse({
     status: HttpStatus.NOT_FOUND,
@@ -85,7 +85,7 @@ export class UsersController {
   update(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateUserDto: UpdateUserDto,
-  ): Promise<User> {
+  ): Promise<UserEntity> {
     return this.usersService.update(id, updateUserDto);
   }
 

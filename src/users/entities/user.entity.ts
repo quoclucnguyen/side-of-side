@@ -2,7 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateCol
 import { ApiProperty } from '@nestjs/swagger';
 
 @Entity('users')
-export class User {
+export class UserEntity {
   @ApiProperty({
     description: 'User ID',
     example: 1,
